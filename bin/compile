@@ -172,7 +172,7 @@ fi
 status "PATH = $PATH"
 status "HOME = $HOME"
 echo "Les gems installés:"
-ls -l $cache_dir/ruby/.gem/ruby/
+ls $cache_dir/ruby/.gem/ruby/
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
