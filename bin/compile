@@ -169,6 +169,7 @@ else
 fi
 
 status "PATH = $PATH"
+status "HOME = $HOME"
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
