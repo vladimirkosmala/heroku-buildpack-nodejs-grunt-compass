@@ -165,12 +165,14 @@ if test -d $cache_dir/ruby/.gemFALSE; then
   HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
 else
   status "No cache found, installing now"
-  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
   HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
 fi
 
 status "PATH = $PATH"
 status "HOME = $HOME"
+echo "Les gems installés:"
+`$cache_dir/ruby/.gem/ruby/`
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
@@ -193,7 +195,9 @@ else
   echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 fi
 
+echo "Version sass:"
 `/bin/sh -c sass -v`
+echo "Version compass:"
 `/bin/sh -c compass --version`
 
 # Check and run Grunt
