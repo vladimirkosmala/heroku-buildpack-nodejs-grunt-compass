@@ -150,7 +150,8 @@ if [ ! -e $build_dir/Procfile ]; then
 fi
 
 # install compass
-status "Installing Compass"
+ruby_version=`ruby -v`
+status "Installing Compass for ruby $ruby_version"
 if [ "$STACK" == "cedar-14" ]; then
   export GEM_HOME=$cache_dir/ruby/.gem/ruby/2.2.0
 else
