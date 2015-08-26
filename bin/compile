@@ -166,6 +166,7 @@ if test -d $cache_dir/ruby/.gemFALSE; then
 else
   status "No cache found, installing now"
   HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
 fi
 
 status "PATH = $PATH"
