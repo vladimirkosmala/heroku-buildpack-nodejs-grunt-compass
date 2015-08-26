@@ -158,6 +158,11 @@ else
   export GEM_HOME=$cache_dir/ruby/.gem/ruby/1.9.1
 fi
 PATH="$GEM_HOME/bin:$PATH"
+
+
+status "FORCE Export ruby 2.2.0 for stack $STACK"
+echo "export PATH=\"\$HOME/.gem/ruby/2.2.0/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
+  
 if test -d $cache_dir/ruby/.gemFALSE; then
   status "Restoring ruby gems directory from cache"
   cp -r $cache_dir/ruby/.gem $build_dir
