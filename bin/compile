@@ -170,6 +170,8 @@ fi
 
 status "PATH = $PATH"
 
+`/bin/sh -c compass --version`
+
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
 mkdir -p $cache_dir/ruby
