@@ -201,9 +201,9 @@ else
 fi
 
 echo "Version sass:"
-`/bin/sh -c sass -v`
+sass -v
 echo "Version compass:"
-`/bin/sh -c compass --version`
+/bin/sh -c compass --version
 
 # Check and run Grunt
 (
