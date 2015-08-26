@@ -170,8 +170,6 @@ fi
 
 status "PATH = $PATH"
 
-`/bin/sh -c compass --version`
-
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
 mkdir -p $cache_dir/ruby
@@ -192,6 +190,8 @@ else
   status "Export ruby 1.9.1 for stack $STACK"
   echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 fi
+
+`/bin/sh -c compass --version`
 
 # Check and run Grunt
 (
