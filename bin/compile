@@ -192,6 +192,7 @@ else
   echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 fi
 
+`/bin/sh -c sass -v`
 `/bin/sh -c compass --version`
 
 # Check and run Grunt
