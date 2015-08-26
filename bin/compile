@@ -160,8 +160,10 @@ PATH="$GEM_HOME/bin:$PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
   cp -r $cache_dir/ruby/.gem $build_dir
+  status "Updating ruby gems"
   HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
 else
+  status "No cache found, installing now"
   HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
 fi
 
@@ -179,8 +181,10 @@ status "Building runtime environment"
 mkdir -p $build_dir/.profile.d
 echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\";" > $build_dir/.profile.d/nodejs.sh
 if [ "$STACK" == "cedar-14" ]; then
+  status "Export ruby 2.2.0 for stack $STACK"
   echo "export PATH=\"\$HOME/.gem/ruby/2.2.0/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 else
+  status "Export ruby 1.9.1 for stack $STACK"
   echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 fi
 
