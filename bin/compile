@@ -168,6 +168,8 @@ else
   HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
 fi
 
+status "PATH = $PATH"
+
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
 mkdir -p $cache_dir/ruby
