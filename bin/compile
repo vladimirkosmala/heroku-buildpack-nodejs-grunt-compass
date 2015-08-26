@@ -203,7 +203,7 @@ fi
 echo "Version sass:"
 sass -v
 echo "Version compass:"
-/bin/sh -c compass --version
+compass --version
 
 # Check and run Grunt
 (
