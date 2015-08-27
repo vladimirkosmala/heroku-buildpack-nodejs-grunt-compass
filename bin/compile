@@ -133,6 +133,7 @@ cp -r $build_dir/.heroku $cache_dir/node
 status "Cleaning up node-gyp and npm artifacts"
 rm -rf "$build_dir/.node-gyp"
 rm -rf "$build_dir/.npm"
+rm -rf "$build_dir/.gem"
 
 # If Procfile is absent, try to create one using `npm start`
 if [ ! -e $build_dir/Procfile ]; then
@@ -153,9 +154,11 @@ fi
 ruby_version=`ruby -v`
 status "Installing Compass for ruby $ruby_version"
 if [ "$STACK" == "cedar-14" ]; then
-  export GEM_HOME=$cache_dir/ruby/.gem/ruby/2.2.0
+  # export GEM_HOME=$cache_dir/ruby/.gem/ruby/2.2.0
+  export GEM_HOME=$HOME/.gem/ruby/2.2.0
 else
-  export GEM_HOME=$cache_dir/ruby/.gem/ruby/1.9.1
+  # export GEM_HOME=$cache_dir/ruby/.gem/ruby/1.9.1
+  export GEM_HOME=$HOME/.gem/ruby/1.9.1
 fi
 PATH="$GEM_HOME/bin:$PATH"
 
