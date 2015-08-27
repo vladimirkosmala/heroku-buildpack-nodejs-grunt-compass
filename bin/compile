@@ -17,9 +17,6 @@ source $bp_dir/bin/common.sh
 # Output npm debug info on error
 trap cat_npm_debug_log ERR
 
-status "cache_dir = $cache_dir"
-status "build_dir = $build_dir"
-
 # Look in package.json's engines.node field for a semver range
 semver_range=$(cat $build_dir/package.json | $bp_dir/vendor/jq -r .engines.node)
 
@@ -151,8 +148,7 @@ if [ ! -e $build_dir/Procfile ]; then
 fi
 
 # install compass
-ruby_version=`ruby -v`
-status "Installing Compass for ruby $ruby_version"
+status "Installing Compass"
 if [ "$STACK" == "cedar-14" ]; then
   # export GEM_HOME=$cache_dir/ruby/.gem/ruby/2.2.0
   export GEM_HOME=$HOME/.gem/ruby/2.2.0
@@ -160,60 +156,33 @@ else
   # export GEM_HOME=$cache_dir/ruby/.gem/ruby/1.9.1
   export GEM_HOME=$HOME/.gem/ruby/1.9.1
 fi
+
+ruby_version=`ruby -v`
+echo "------> Installing Compass for ruby $ruby_version"
+
 PATH="$GEM_HOME/bin:$PATH"
-
-
-status "FORCE Export ruby 2.2.0 for stack $STACK"
-mkdir -p $build_dir/.profile.d
-echo "export PATH=\"\$HOME/.gem/ruby/2.2.0/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
-  
-if test -d $cache_dir/ruby/.gemFALSE; then
-  status "Restoring ruby gems directory from cache"
-  cp -r $cache_dir/ruby/.gem $build_dir
-  status "Updating ruby gems"
-  HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
-else
-  status "No cache found, installing now"
-  HOME=$build_dir gem install rb-fsevent --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install rb-inotify --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install chunky_png --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install compass-import-once --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install compass-core --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
-fi
-
-status "PATH = $PATH"
-status "HOME = $HOME"
-echo "Les gems installés:"
-ls $cache_dir/ruby/.gem/ruby/
+# if test -d $cache_dir/ruby/.gem; then
+#   status "Restoring ruby gems directory from cache"
+#   cp -r $cache_dir/ruby/.gem $build_dir
+#   HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
+# else
+  HOME=$build_dir gem install compass -u
+# fi
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
 mkdir -p $cache_dir/ruby
 
 # If app has a gems directory, cache it.
-if test -d $build_dir/.gem; then
-  status "Caching ruby gems directory for future builds"
-  cp -r $build_dir/.gem $cache_dir/ruby
-fi
+# if test -d $build_dir/.gem; then
+#   status "Caching ruby gems directory for future builds"
+#   cp -r $build_dir/.gem $cache_dir/ruby
+# fi
 
 status "Building runtime environment"
 mkdir -p $build_dir/.profile.d
 echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\";" > $build_dir/.profile.d/nodejs.sh
-if [ "$STACK" == "cedar-14" ]; then
-  status "Export ruby 2.2.0 for stack $STACK"
-  echo "export PATH=\"\$HOME/.gem/ruby/2.2.0/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
-else
-  status "Export ruby 1.9.1 for stack $STACK"
-  echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
-fi
-
-echo "Version sass:"
-sass -v
-echo "Version compass:"
-which -a compass
-compass --version
+echo "export PATH=\"\$HOME/.gem/ruby/1.9.1/bin:\$PATH\"" > $build_dir/.profile.d/ruby.sh
 
 # Check and run Grunt
 (
